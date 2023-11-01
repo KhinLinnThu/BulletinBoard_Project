@@ -9,7 +9,7 @@
                 <tr>
                     <td><label for="name">氏名</label></td>
                     <td>
-                        <input type="text" name="name" placeholder="山田金太郎" value="{{ $user['name'] }}">
+                        <input type="text" name="name" placeholder="山田金太郎" value="{{ old('name', $user['name']) }}">
                         @error('name')
                             <span class="error-msg">{{ $message }}</span>
                         @enderror
@@ -18,7 +18,8 @@
                 <tr>
                     <td><label for="email">メールアドレス</label></td>
                     <td>
-                        <input type="email" name="email" placeholder="yamada@gmail.com" value="{{ $user['email'] }}">
+                        <input type="email" name="email" placeholder="yamada@gmail.com"
+                            value="{{ old('email', $user['email']) }}">
                         @error('email')
                             <span class="error-msg">{{ $message }}</span>
                         @enderror
@@ -28,13 +29,22 @@
                     <td><label for="role">権限種別</label></td>
                     <td>
                         <select name="role">
-                            <option value="{{ $user['role'] }}">{{ $user['role'] }}</option>
+                            <option value="{{ old('role', $user['role']) }}">
+                                @if ($user['role'] === 1)
+                                    アドミン
+                                @else
+                                    ユーザー
+                                @endif
+                            </option>
+                            <option value="1">アドミン</option>
+                            <option value="2">ユーザー</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td><label for="birthday">生年月日</label></td>
-                    <td><input type="text" name="birthday" placeholder="1980/12/11" value="{{ $user['birthday'] }}">
+                    <td><input type="text" name="birthday" placeholder="1980/12/11"
+                            value="{{ old('birthday', $user['birthday']) }}">
                         @error('birthday')
                             <span class="error-msg">{{ $message }}</span>
                         @enderror
@@ -42,17 +52,18 @@
                 </tr>
                 <tr>
                     <td><label for="">携帯電話番号</label></td>
-                    <td><input type="text" name="phone" placeholder="09-1234-2121" value="{{ $user['phone'] }}"></td>
+                    <td><input type="text" name="phone" placeholder="09-1234-2121"
+                            value="{{ old('phone', $user['phone']) }}"></td>
                 </tr>
                 <tr>
                     <td><label for="address">住所</label></td>
-                    <td><input type="text" name="address" placeholder="xxxxxxxxxxx" value="{{ $user['address'] }}"></td>
+                    <td><input type="text" name="address" placeholder="xxxxxxxxxxx"
+                            value="{{ old('address', $user['address']) }}"></td>
                 </tr>
                 <tr>
                     <td><label for="profile">プロフィール</label></td>
                     <td>
-                        <img src="{{ asset('/storage/images/'. $user['profile']) }}" alt="profile"
-                            class="img-thumbnail"><br>
+                        <img src="{{ $user['profile'] }}" alt="profile" class="img-thumbnail"><br>
                         <input type="file" name="profile">
                         @error('profile')
                             <span class="error-msg">{{ $message }}</span>

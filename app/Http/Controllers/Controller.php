@@ -100,8 +100,6 @@ class Controller extends BaseController
     }
     public function userUpdate(Request $request)
     {
-
-        // $this->userValidationCheck($request);
         $updateData = request()->except(['_token', 'user_id']);
         $updateData['updated_user_id'] = Auth::user()->id;
         $updateData['deleted_user_id'] = Auth::user()->id;
@@ -110,7 +108,6 @@ class Controller extends BaseController
             $oldImg = User::select('profile')->where('id', $id)->first()->toArray();
             $oldImg = $oldImg['profile'];
             Storage::delete('public/images/' . $oldImg);
-
             $fileName = uniqid() . $request->file('profile')->getClientOriginalName();
             $path = $request->file('profile')->storeAs('images', $fileName, 'public');
             $profile = '/storage/' . $path;
