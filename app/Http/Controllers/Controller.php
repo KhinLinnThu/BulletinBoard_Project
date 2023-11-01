@@ -50,7 +50,11 @@ class Controller extends BaseController
     public function homeCount()
     {
         $userCount = User::count();
-        $postCount = Post::count();
+        if (Auth::user()->role === 1) {
+            $postCount = Post::count();
+        } else {
+            $postCount = Auth::user()->posts->count();
+        }
         $userPostCount = Auth::user()->posts->count();
         return view('home', compact('userCount', 'postCount', 'userPostCount'));
     }
@@ -78,7 +82,7 @@ class Controller extends BaseController
             $profile = '/storage/' . $path;
             $user_datas['profile'] = $profile;
         }
-        return view('user/userconfirm', compact('user_datas','fileName'));
+        return view('user/userconfirm', compact('user_datas', 'fileName'));
     }
     public function userCreateComplete(Request $request)
     {
