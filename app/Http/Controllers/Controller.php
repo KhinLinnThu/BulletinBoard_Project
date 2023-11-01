@@ -103,6 +103,8 @@ class Controller extends BaseController
     {
         // $this->userValidationCheck($request);
         $updateData = request()->except(['_token', 'user_id']);
+        $updateData['updated_user_id'] = Auth::user()->id;
+        $updateData['deleted_user_id'] = Auth::user()->id;
         $id = $request->user_id;
 
         if ($request->hasFile('profile')) {
