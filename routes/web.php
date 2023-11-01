@@ -23,8 +23,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/', function () {
         return view('auth/login');
     });
-Route::get('login', [Controller::class, 'showlogin'])->name('login');
-Route::post('login', [Controller::class, 'login']);
+    Route::get('login', [Controller::class, 'showlogin'])->name('login');
+    Route::post('login', [Controller::class, 'login']);
 });
 
 Route::group(['middleware' => ['auth']], function () {
@@ -32,24 +32,25 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/changepassword', [ProfileController::class, 'showChangePasswordForm'])->name('password#show');
     Route::post('/change-password', [ProfileController::class, 'passwordChange'])->name('password#change');
     Route::get('/logout', [ProfileController::class, 'logout'])->name('logout');
+
+    // For User
+    Route::get('home', [Controller::class, 'homeCount'])->name('home');
+
+    // For Post
+    Route::post('postsearch', [PostController::class, 'postSearch'])->name('post#search');
+    Route::get('postmanagement', [PostController::class, 'postManagement'])->name('post#management');
+    Route::get('postcreate', [PostController::class, 'postCreate'])->name('post#create');
+    Route::post('postconfirm', [PostController::class, 'postConfirm'])->name('post#confirm');
+    Route::post('postcreatecomplete', [PostController::class, 'postCreateComplete'])->name('post#complete');
+    Route::get('postedit/{id}', [PostController::class, 'postEdit'])->name('post#edit');
+    Route::post('postupdate', [PostController::class, 'postUpdate'])->name('post#update');
+    Route::delete('postdelete/{id}', [PostController::class, 'postDelete'])->name('post#delete');
+
+    // Excel File Upload & Download
+    Route::get('/fileimport', [ImportController::class, 'importView'])->name('importview');
+    Route::post('/import', [ImportController::class, 'import'])->name('import');
+    Route::get('/export-posts', [ImportController::class, 'exportPosts'])->name('exportpost');
 });
-// For User
-Route::get('home', [Controller::class, 'homeCount'])->name('home');
-
-// For Post
-Route::post('postsearch', [PostController::class, 'postSearch'])->name('post#search');
-Route::get('postmanagement', [PostController::class, 'postManagement'])->name('post#management');
-Route::get('postcreate', [PostController::class, 'postCreate'])->name('post#create');
-Route::post('postconfirm', [PostController::class, 'postConfirm'])->name('post#confirm');
-Route::post('postcreatecomplete', [PostController::class, 'postCreateComplete'])->name('post#complete');
-Route::get('postedit/{id}', [PostController::class, 'postEdit'])->name('post#edit');
-Route::post('postupdate', [PostController::class, 'postUpdate'])->name('post#update');
-Route::delete('postdelete/{id}', [PostController::class, 'postDelete'])->name('post#delete');
-
-// Excel File Upload & Download
-Route::get('/fileimport', [ImportController::class, 'importView'])->name('importview');
-Route::post('/import', [ImportController::class, 'import'])->name('import');
-Route::get('/export-posts', [ImportController::class, 'exportPosts'])->name('exportpost');
 
 Route::group(
     ['middleware' => ['auth', 'isAdmin']],
