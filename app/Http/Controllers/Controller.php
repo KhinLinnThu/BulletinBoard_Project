@@ -71,19 +71,14 @@ class Controller extends BaseController
     public function userConfirm(Request $request)
     {
         $this->userValidationCheck($request);
-        $name = $request->name;
-        $email = $request->email;
-        $password = $request->password;
-        $phone = $request->phone;
-        $address = $request->address;
-        $role = $request->role;
-        $birthday = $request->birthday;
+        $user_datas = $request->all();
         if ($request->hasFile('profile')) {
             $fileName = uniqid() . $request->file('profile')->getClientOriginalName();
             $path = $request->file('profile')->storeAs('images', $fileName, 'public');
             $profile = '/storage/' . $path;
+            $user_datas['profile'] = $profile;
         }
-        return view('user/userconfirm', compact('name', 'email', 'password', 'phone', 'address', 'role', 'birthday', 'profile', 'fileName'));
+        return view('user/userconfirm', compact('user_datas','fileName'));
     }
     public function userCreateComplete(Request $request)
     {
@@ -101,12 +96,12 @@ class Controller extends BaseController
     }
     public function userUpdate(Request $request)
     {
+
         // $this->userValidationCheck($request);
         $updateData = request()->except(['_token', 'user_id']);
         $updateData['updated_user_id'] = Auth::user()->id;
         $updateData['deleted_user_id'] = Auth::user()->id;
         $id = $request->user_id;
-
         if ($request->hasFile('profile')) {
             $oldImg = User::select('profile')->where('id', $id)->first()->toArray();
             $oldImg = $oldImg['profile'];
@@ -115,9 +110,8 @@ class Controller extends BaseController
             $fileName = uniqid() . $request->file('profile')->getClientOriginalName();
             $path = $request->file('profile')->storeAs('images', $fileName, 'public');
             $profile = '/storage/' . $path;
-            $updateData['profile'] = $fileName;
+            $updateData['profile'] = $profile;
         }
-
         User::where('id', $id)->update($updateData);
         return redirect()->route('user#management');
     }
@@ -147,7 +141,7 @@ class Controller extends BaseController
             'name' => 'required|min:5',
             'email' => 'required|email|unique:users,email,' . $request->user_id,
             'password' => 'required|min:8',
-            'confirm-password' => 'required_with:password|same:password|min:8',
+            'confirm-password' => 'required|same:password|min:8',
             'role' => 'required',
             'profile' => 'required|mimes:jpg,jpeg,png',
         ];

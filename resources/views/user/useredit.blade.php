@@ -51,7 +51,7 @@
                 <tr>
                     <td><label for="profile">プロフィール</label></td>
                     <td>
-                        <img src="{{ asset('storage/images/' . $user['profile']) }}" alt="profile"
+                        <img src="{{ asset('/storage/images/'. $user['profile']) }}" alt="profile"
                             class="img-thumbnail"><br>
                         <input type="file" name="profile">
                         @error('profile')

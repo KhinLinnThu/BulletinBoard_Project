@@ -1,4 +1,4 @@
-@extends('header')
+@extends('layouts.app')
 @section('content')
     <div class="sec-content">
         <div class="card w-50 center top">
