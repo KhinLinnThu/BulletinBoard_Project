@@ -6,17 +6,27 @@
             <form action="{{ route('user#search') }}" method="post">
                 @csrf
                 <div class="card-body">
-                    <input type="text" name="name" placeholder="氏名">
-                    <input type="email" name="email" placeholder="メールアドレス">
-                    <select name="role-type">
-                        <option value="">権限種別</option>
-                        <option value="1">アドミン</option>
-                        <option value="2">ユーザー</option>
-                    </select>
-                    <input type="date" name="create_date" placeholder="作成日">~
-                    <input type="date" name="create_date" placeholder="作成日">
-                    <button type="reset" class="btn-clear">クリア</button>
-                    <button type="submit" class="btn-search ">検索</button>
+                    <div class="search-gp">
+                        <input type="text" name="searchName" value="{{ old('searchName')}}" placeholder="氏名" class="form-control @error('searchName') is-invalid @enderror">
+                    </div>
+                    <div class="search-gp">
+                        <input type="email" name="searchEmail" value="{{ old('searchEmail')}}" placeholder="メールアドレス" class="form-control @error('searchEmail') is-invalid @enderror">
+                    </div>
+                    <div class="search-gp">
+                        <select name="searchRole" value="{{ old('searchRole')}}" class="form-control @error('searchRole') is-invalid @enderror">
+                            <option value="">権限種別</option>
+                            <option value="1">アドミン</option>
+                            <option value="2">ユーザー</option>
+                        </select>
+                    </div>
+                    <div class="search-gp">
+                        <input type="date" name="from_date" value="{{ old('from_date')}}" placeholder="作成日" class="form-control @error('from_date') is-invalid @enderror">~
+                    </div>
+                    <div class="search-gp">
+                        <input type="date" name="to_date" value="{{ old('to_date')}}" placeholder="作成日" class="form-control @error('to_date') is-invalid @enderror">
+                    </div>
+                    <a href="{{ route('user#management') }}" class="btn-clear">クリア</a>
+                    <button type="submit" class="btn-search mt-5">検索</button>
                 </div>
             </form>
         </div>
@@ -65,46 +75,52 @@
                         </th>
                         <th></th>
                     </thead>
+                    @if ($user_datas->total() === 0)
+                        <tbody>
+                            <td colspan="7" class="py-5">データが登録されていません。</td>
+                        </tbody>
+                    @else
+                        <tbody>
+                            @foreach ($user_datas as $data)
+                                <tr id="sid{{ $data->id }}">
+                                    <td>
+                                        <input type="checkbox" name="ids[{{ $data->id }}]" class="checked_id"
+                                            value="{{ $data->id }}">
+                                    </td>
+                                    <td>
+                                        <span>{{ $data->name }}</span>
+                                        <hr>
+                                        <span>{{ $data->email }}</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ Carbon\Carbon::parse($data->birthday)->format('d/m/Y') }}</span>
+                                        <hr>
+                                        <span>{{ $data->phone }}</span>
+                                    </td>
+                                    <td>{{ $data->address }}</td>
+                                    <td>
 
-                    <tbody>
-                        @foreach ($user_datas as $data)
-                            <tr id="sid{{ $data->id }}">
-                                <td>
-                                    <input type="checkbox" name="ids[{{ $data->id }}]" class="checked_id"
-                                        value="{{ $data->id }}">
-                                </td>
-                                <td>
-                                    <span>{{ $data->name }}</span>
-                                    <hr>
-                                    <span>{{ $data->email }}</span>
-                                </td>
-                                <td>
-                                    <span>{{ Carbon\Carbon::parse($data->birthday)->format('d/m/Y') }}</span>
-                                    <hr>
-                                    <span>{{ $data->phone }}</span>
-                                </td>
-                                <td>{{ $data->address }}</td>
-                                <td>
+                                        @if ($data->role === 1)
+                                            <span>アドミン</span>
+                                        @else
+                                            <span>ユーザー</span>
+                                        @endif
+                                        <hr>
+                                        <span>{{ $data->created_user_name }}</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $data->created_at->format('d/m/Y') }}</span>
+                                        <hr>
+                                        <span>{{ $data->updated_at->format('d/m/Y') }}</span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('user#edit', $data->id) }}" class="edit">編集</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    @endif
 
-                                    @if ($data->role === 1)
-                                        <span>アドミン</span>
-                                    @else
-                                        <span>ユーザー</span>
-                                    @endif
-                                    <hr>
-                                    <span>{{ $data->created_user_name }}</span>
-                                </td>
-                                <td>
-                                    <span>{{ $data->created_at->format('d/m/Y') }}</span>
-                                    <hr>
-                                    <span>{{ $data->updated_at->format('d/m/Y') }}</span>
-                                </td>
-                                <td>
-                                    <a href="{{ route('user#edit', $data->id) }}" class="edit">編集</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
                 </table>
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">

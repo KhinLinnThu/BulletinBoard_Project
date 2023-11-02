@@ -82,6 +82,11 @@ class PostController extends Controller
 
     public function postSearch(Request $request)
     {
+        $validationRules = [
+            'search' => 'required',
+            'status' => 'required',
+        ];
+        Validator::make($request->all(), $validationRules)->validate();
         $search = $request->search;
         $post_datas = Post::where(function ($query) use ($search) {
             $query->where('title', 'like', '%' . $search . '%')

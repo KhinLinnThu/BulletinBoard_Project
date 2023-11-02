@@ -3,7 +3,7 @@
 <div class="sec-content confirm-page">
     <p class="content-ttl">ユーザー情報新規作成</p>
 
-    <form action="{{ route('user#complete') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('user#complete') }}" method="POST" enctype="multipart/form-data" class="form">
       @csrf
         <table class="create-tb">
             <tr>

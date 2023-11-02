@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
     //         return response()->view('errors.400', [], $exception->getStatusCode());
     //     }
 
-    //     if (!auth()->user()->role == 0) {
+    //     if (!auth()->user()->role == 1) {
     //         return response()->view('errors.200', [], 200);
     //     }
 

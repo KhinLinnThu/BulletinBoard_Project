@@ -27,28 +27,6 @@ class ProfileController extends Controller
             'user' => $request->user(),
         ]);
     }
-
-    /**
-     * Update the user's profile information.
-     */
-    // public function update(ProfileUpdateRequest $request): RedirectResponse
-    // {
-    //     $request->user()->fill($request->validated());
-
-    //     if ($request->user()->isDirty('email')) {
-    //         $request->user()->email_verified_at = null;
-    //     }
-
-    //     $request->user()->save();
-
-    //     return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    // }
-
-    /**
-     * Delete the user's account.
-     */
-    // public function destroy(Request $request): RedirectResponse
-    // {
     //     $request->validateWithBag('userDeletion', [
     //         'password' => ['required', 'current_password'],
     //     ]);
@@ -73,14 +51,11 @@ class ProfileController extends Controller
     public function passwordChange(Request $request)
     {
         $this->ValidationCheck($request);
-
         $user = Auth::user();
-
         if (Hash::check($request->current_password, $user->password)) {
             $user->update([
                 'password' => Hash::make($request->new_password),
             ]);
-
             return redirect('/')->with('success', 'パスワードは正常に変更されました。');
         } else {
             return back()->with('error', '現在のパスワードは間違っています。');

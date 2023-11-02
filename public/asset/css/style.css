@@ -86,10 +86,7 @@ table {
 .top {
     margin-top: 10%;
 }
-.form {
-    width: 80%;
-    margin: 20px auto 50px;
-}
+
 .form .error-msg{
     padding-top: 10px;
     display: block;
@@ -124,23 +121,24 @@ table {
     padding: 10px;
     border: none;
     outline: none;
-    margin-right: 30px;
     color: rgb(161, 159, 159);
-}
-.search-sec .card-body input:nth-child(5) {
-    margin-left: 30px;
 }
 .btn-clear,
 .btn-search {
     width: 10%;
-    padding: 10px;
+    padding: 9px;
     border: none;
     outline: none;
     margin-right: 30px;
 }
 .btn-clear {
+    text-align: center;
+    background-color: #fff;
     color: rgb(178, 47, 47);
     border: 1px solid rgb(178, 47, 47);
+}
+.btn-clear:hover {
+    color: rgb(178, 47, 47);
 }
 .btn-search {
     background-color: rgb(178, 47, 47);
@@ -240,7 +238,7 @@ textarea {
 .create-tb tr td:first-child {
     width: 400px;
 }
-form button {
+.form button {
     width: 150px;
     margin: 40px 20px 0;
 }
@@ -339,9 +337,8 @@ hr:not([size]) {
 /* mail complete */
 .mail-complete {
     width: 80%;
-    margin: 20px auto;
+    margin: 30px auto 40px;
     cursor: pointer;
-    padding: 13px;
     background-color: rgb(12, 12, 91);
 }
 
@@ -370,4 +367,17 @@ hr:not([size]) {
 
 .error-txt {
     color: rgb(12, 12, 91);
+}
+
+/* list page search sec */
+.search-gp {
+    display: inline;
+    margin-right: 30px;
+}
+.search-sec .search-gp:nth-child(4) input{
+    margin-right: 30px;
+}
+
+.search-gp .form-control {
+    display: inline;
 }

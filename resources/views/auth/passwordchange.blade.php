@@ -4,7 +4,6 @@
         <div class="card w-50 center top">
             <p class="mt-5 jp-ttl">パスワード変更</p>
             <p class="eng-ttl">Bulletin Board</p>
-
             <form method="POST" action="{{ route('password#change') }}" class="form">
                 @csrf
                 @if (session('error'))
@@ -28,9 +27,8 @@
                         <span class="error-msg">{{ $message }}</span>
                     @enderror
                 </div>
-
                 <div class="form-group">
-                    <label for="new_password_confirmation" class="d-block text-start">新しいパスワードを確認</label>
+                    <label for="new_password_confirmation" class="d-block text-start">新しいパスワード確認</label>
                     <input type="password" name="new_password_confirmation" id="new_password_confirmation"
                         class="form-control" value="{{ old('new_password_confirmation') }}">
                     @error('new_password_confirmation')
