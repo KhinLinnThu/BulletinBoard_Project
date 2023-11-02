@@ -27,7 +27,7 @@
                     </td>
                 </tr>
             </table>
-            <button type="reset" class="cmn-btn reset-btn">クリア</button>
+            <a href="{{ url()->previous() }}" class="cmn-btn reset-btn">クリア</a>
             <button type="submit" class="cmn-btn confirm-btn">登録</button>
         </form>
     </div>

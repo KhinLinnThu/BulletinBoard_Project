@@ -89,7 +89,6 @@ table {
 
 .form .error-msg{
     padding-top: 10px;
-    display: block;
     text-align: left;
     font-size: 13px;
 }
@@ -238,7 +237,9 @@ textarea {
 .create-tb tr td:first-child {
     width: 400px;
 }
-.form button {
+.form .reset-btn,
+.form .confirm-btn {
+    text-align: center;
     width: 150px;
     margin: 40px 20px 0;
 }
@@ -284,7 +285,7 @@ textarea {
     border: none;
     color: #000;
 }
-td img {
+td .img-thumbnail {
     width: 150px;
     height: 150px;
     margin: 20px 30px;
@@ -344,7 +345,7 @@ hr:not([size]) {
 
 
 /* profile */
-.profile-img{
+.user-profile-img{
     width: 180px;
     height: 240px;
     border-radius: 10px;
@@ -380,4 +381,51 @@ hr:not([size]) {
 
 .search-gp .form-control {
     display: inline;
+}
+
+.profile-img {
+    max-width: 70%;
+}
+
+.preview {
+    margin: 5px 0;
+    height: 150px;
+    overflow: hidden;
+    border: 1px solid #000066;
+    width: 150px;
+    object-fit: cover;
+}
+
+.preview img {
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.profile-img .image-path {
+    max-width: 63%;
+}
+
+.profile-img .image-path input[type="text"] {
+    margin-bottom: 0.5rem;
+    width: 100%;
+
+}
+
+.profile-img input[type="file"] {
+    display: none;
+}
+
+.profile-img label {
+    display: block;
+    padding: 8px;
+    border: 1px solid #000066;
+    background: #fff;
+    color: #000066;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 5px;
+    width: 10%;
 }

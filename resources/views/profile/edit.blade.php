@@ -8,7 +8,7 @@
                         <div class="d-flex text-black">
                             <div class="flex-shrink-0">
                                 @if ($user->profile)
-                                <img src="{{ $user->profile }}" alt="profile" class="img-fluid profile-img">
+                                <img src="{{ $user->profile }}" alt="profile" class="img-fluid user-profile-img">
                                 @endif
                             </div>
                             <div class="flex-grow-1 ms-5 user-profile">

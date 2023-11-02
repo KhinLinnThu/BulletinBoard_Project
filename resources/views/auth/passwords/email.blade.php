@@ -2,7 +2,7 @@
 @section('content')
     <div class="container top">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="card center">
                     <p class="mt-5 jp-ttl">社内OJT</p>
                     <p class="eng-ttl">Bulletin Board</p>

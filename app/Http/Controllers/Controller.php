@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -126,15 +127,24 @@ class Controller extends BaseController
             return redirect()->route('user#management');
         }
     }
-
     public function userSearch(Request $request)
     {
-        $user_datas = User::where('name', 'like', '%' . $request->name . '%')
-            ->where('email', 'like', '%' . $request->email . '%')
-            ->whereDate('created_at', $request->create_date)
+        $validationRules = [
+            'searchName' => 'required',
+            'searchEmail' => 'required|email',
+            'searchRole' => 'required',
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ];
+        Validator::make($request->all(), $validationRules)->validate();
+        $user_datas = User::where('name', 'like', '%' . $request->searchName . '%')
+            ->orWhere('email', 'like', '%' . $request->searchEmail . '%')
+            ->orWhere('role', 'like', '%' . $request->searchRole . '%')
+            ->orWhere('created_at', '>=', $request->from_date)
+            ->orWhere('updated_at', '<=', $request->to_date)
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
-        ;
-        return view('user/usermanagement', compact('user_datas'));
+        return view('user/usermanagement',compact('user_datas'));
     }
     private function userValidationCheck($request)
     {

@@ -64,6 +64,7 @@
                     <td><label for="profile">プロフィール</label></td>
                     <td>
                         <img src="{{ $user['profile'] }}" alt="profile" class="img-thumbnail"><br>
+                        {{-- <input type="hidden" name="old_profile" value="{{ $user['profile'] }}"> --}}
                         <input type="file" name="profile">
                         @error('profile')
                             <span class="error-msg">{{ $message }}</span>
