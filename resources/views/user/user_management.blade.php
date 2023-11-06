@@ -7,23 +7,27 @@
                 @csrf
                 <div class="card-body">
                     <div class="search-gp">
-                        <input type="text" name="searchName" value="{{ old('searchName')}}" placeholder="氏名" class="form-control">
+                        <input type="text" name="searchName" value="{{ old('searchName') }}" placeholder="氏名"
+                            class="form-control">
                     </div>
                     <div class="search-gp">
-                        <input type="email" name="searchEmail" value="{{ old('searchEmail')}}" placeholder="メールアドレス" class="form-control">
+                        <input type="email" name="searchEmail" value="{{ old('searchEmail') }}" placeholder="メールアドレス"
+                            class="form-control">
                     </div>
                     <div class="search-gp">
-                        <select name="searchRole" value="{{ old('searchRole')}}" class="form-control">
+                        <select name="searchRole" value="{{ old('searchRole') }}" class="form-control">
                             <option value="">権限種別</option>
                             <option value="1">アドミン</option>
                             <option value="2">ユーザー</option>
                         </select>
                     </div>
                     <div class="search-gp">
-                        <input type="date" name="from_date" value="{{ old('from_date')}}" placeholder="作成日" class="form-control">~
+                        <input type="date" name="from_date" value="{{ old('from_date') }}" placeholder="作成日"
+                            class="form-control">~
                     </div>
                     <div class="search-gp">
-                        <input type="date" name="to_date" value="{{ old('to_date')}}" placeholder="作成日" class="form-control">
+                        <input type="date" name="to_date" value="{{ old('to_date') }}" placeholder="作成日"
+                            class="form-control">
                     </div>
                     <a href="{{ route('user_management') }}" class="btn-clear">クリア</a>
                     <button type="submit" class="btn-search mt-5">検索</button>
@@ -109,9 +113,9 @@
                                         <span>{{ $data->created_user_name }}</span>
                                     </td>
                                     <td>
-                                        <span>{{ $data->created_at->format('d/m/Y') }}</span>
+                                        <span>{{ Carbon\Carbon::parse($data->created_at)->format('d/m/Y') }}</span>
                                         <hr>
-                                        <span>{{ $data->updated_at->format('d/m/Y') }}</span>
+                                        <span>{{ Carbon\Carbon::parse($data->updated_at)->format('d/m/Y') }}</span>
                                     </td>
                                     <td>
                                         <a href="{{ route('user_edit', $data->id) }}" class="edit">編集</a>

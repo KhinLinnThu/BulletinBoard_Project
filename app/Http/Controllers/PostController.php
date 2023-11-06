@@ -53,7 +53,6 @@ class PostController extends Controller
                 'status' => $status,
                 'created_user_id' => Auth::user()->id,
                 'updated_user_id' => Auth::user()->id,
-                'deleted_user_id' => Auth::user()->id
             ]
         );
         return redirect()->route('post_management');
@@ -70,7 +69,6 @@ class PostController extends Controller
         $id = $request->post_id;
         $updateData = request()->except(['_token', 'post_id']);
         $updateData['updated_user_id'] = Auth::user()->id;
-        $updateData['deleted_user_id'] = Auth::user()->id;
         Post::where('id', $id)->update($updateData);
         return redirect()->route('post_management');
     }
@@ -83,13 +81,32 @@ class PostController extends Controller
     public function postSearch(Request $request)
     {
         $search = $request->search;
-        $post_datas = Post::where(function ($query) use ($search) {
-            $query->where('title', 'like', '%' . $search . '%')
-                ->orWhere('description', 'like', '%' . $search . '%');
-        })
-            ->where('status', 'like', '%' . $request->status . '%')
-            ->paginate(10);
-        return view('post/post_management', compact('search', 'post_datas'));
+        if (Auth::user()->role === 1) {
+            $post_datas = Post::where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            })
+                ->where('status', 'like', '%' . $request->status . '%')
+                ->join('users as create_user', 'posts.created_user_id', '=', 'create_user.id')
+                ->join('users as updated_user', 'posts.updated_user_id', '=', 'updated_user.id')
+                ->select('posts.*', 'create_user.name as created_user_name', 'updated_user.name as updated_user_name')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+            return view('post/post_management', compact('post_datas'));
+        } else {
+            $post_datas = Post::where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            })
+                ->where('status', 'like', '%' . $request->status . '%')
+                ->join('users as create_user', 'posts.created_user_id', '=', 'create_user.id')
+                ->join('users as updated_user', 'posts.updated_user_id', '=', 'updated_user.id')
+                ->select('posts.*', 'create_user.name as created_user_name', 'updated_user.name as updated_user_name')
+                ->where('posts.created_user_id', Auth::user()->id)
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+            return view('post/post_management', compact('search', 'post_datas'));
+        }
     }
 
     private function postValidationCheck($request)

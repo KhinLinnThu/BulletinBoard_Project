@@ -52,20 +52,20 @@
                     <td><label for="profile">プロフィール</label></td>
                     <td>
                         <div class="profile-img d-flex justify-content-between align-items-start">
-                        <div class="image-path">
-                            <input type="text" id="image-path" placeholder="選択されていません" value="" readonly>
-                            <span>【アップロード可能なファイルの拡張子】jpg、jpeg、png</span>
-                        </div>
-                        <label for="image-file">参照</label>
-                        <input type="file" id="image-file" name="profile" onchange="showPreview(event);">
-                        <div class="preview">
-                            <img id="image-file-preview">
-                        </div>
+                            <div class="image-path">
+                                <input type="text" id="image-path" placeholder="選択されていません" value="" readonly>
+                                <span>【アップロード可能なファイルの拡張子】jpg、jpeg、png</span>
+                            </div>
+                            <label for="image-file">参照</label>
+                            <input type="file" id="image-file" name="profile" onchange="showPreview(event);">
+                            <div class="preview">
+                                <img id="image-file-preview">
+                            </div>
 
                         </div>
                         @error('profile')
-                        <span class="error-msg mx-3">{{ $message }}</span>
-                    @enderror
+                            <span class="error-msg mx-3">{{ $message }}</span>
+                        @enderror
                     </td>
                 </tr>
                 <tr>

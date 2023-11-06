@@ -34,7 +34,6 @@ class Controller extends BaseController
             ->select('users.*', 'user.name as created_user_name')
             ->orderBy('users.id', 'desc')
             ->paginate(10);
-
         return view('user/user_management', compact('user_datas'));
     }
     public function userCreate()
@@ -95,12 +94,30 @@ class Controller extends BaseController
     }
     public function userSearch(Request $request)
     {
-        $user_datas = User::where('name', 'like', '%' . $request->searchName . '%')
-            ->orWhere('email', 'like', '%' . $request->searchEmail . '%')
-            ->orWhere('role', 'like', '%' . $request->searchRole . '%')
-            ->orWhere('created_at', '>=', $request->from_date)
-            ->orWhere('updated_at', '<=', $request->to_date)
+        $user_datas = DB::table('users as user')
+            ->when(request('searchName'), function ($query) {
+                $query->where('user.name', 'Like', '%' . request('searchName') . '%');
+            })
+            ->when(request('searchEmail'), function ($query) {
+                $query->where('user.email', 'Like', '%' . request('searchEmail') . '%');
+            })
+            ->when(in_array(request('searchRole'), [1, 2]), function ($query) {
+                $query->where('user.role', 'Like', '%' . request('searchRole') . '%');
+            })
+
+            ->when(request('from_date'), function ($query) {
+                $searchFrom = date('Y/m/d', strtotime(request('from_date')));
+                $query->whereDate('user.created_at', '>=', date('Y-m-d 00:00:00', strtotime($searchFrom)));
+            })
+            ->when(request('to_date'), function ($query) {
+                $searchFrom = date('Y/m/d', strtotime(request('to_date')));
+                $query->whereDate('user.created_at', '<=', date('Y-m-d 00:00:00', strtotime($searchFrom)));
+            })
+            ->join('users as created_user', 'user.created_user_id', '=', 'created_user.id')
+            ->join('users as updated_user', 'user.updated_user_id', '=', 'updated_user.id')
+            ->select('user.*', 'created_user.name as created_user_name', 'updated_user.name as updated_user_name')
             ->orderBy('created_at', 'desc')
+            ->whereNull('user.deleted_at')
             ->paginate(10);
         return view('user/user_management', compact('user_datas'));
     }
