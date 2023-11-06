@@ -18,6 +18,7 @@ cp .env.example .env
 php artisan key:generate
 php artisan storage:link
 composer dump-autoload
+composer require maatwebsite/excel
 ```
 
 ### Configuration in `.env` file
@@ -30,6 +31,17 @@ DB_PORT=3306
 DB_DATABASE=bulletinBoard
 DB_USERNAME=root
 DB_PASSWORD=
+```
+ResetMail **eg.**
+```
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USERNAME=scm.khinlinthu@gmail.com
+MAIL_PASSWORD=kxrbxkghpgdjzyxu
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=scm.khinlinthu@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
 ```
 
 ## Database Migration
