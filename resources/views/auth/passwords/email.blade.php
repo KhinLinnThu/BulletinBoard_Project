@@ -13,7 +13,7 @@
                                 <input type="email" class="form-control" placeholder="パスワードリセットするメールアドレスを入力してください。"
                                     name="email" value="{{ old('email') }}">
                                 @error('email')
-                                    <span class="error-msg">{{ $message }}</span>
+                                    <span class="error-msg d-block">{{ $message }}</span>
                                 @enderror
                             </div>
                             <input type="submit" value="パスワードリセット" class="btn btn-primary w-100 mt-4 login-btn">

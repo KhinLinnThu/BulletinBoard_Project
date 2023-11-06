@@ -16,38 +16,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
-    public function showlogin()
-    {
-        return view('auth/login');
-    }
-    public function login(Request $request)
-    {
-        $validationRules = [
-            'email' => 'required|email',
-            'password' => 'required|min:8'
-        ];
-        $validateMessage = [
-            'email.required' => 'メールアドレスを入力してください。',
-            'email.email' => 'メールアドレスの形式が間違っています。',
-            'password.required' => 'パスワードを入力してください。',
-            'password.min' => 'パスワードは少なくとも8つ必要です。',
-        ];
-        Validator::make($request->all(), $validationRules, $validateMessage)->validate();
-
-        if (Auth::attempt(request()->except('_token'))) {
-            $userCount = User::count();
-            $postCount = Post::count();
-            $userPostCount = Auth::user()->posts->count();
-            return view('home', compact('userCount', 'postCount', 'userPostCount'));
-        } else {
-            return back()->withInput()->withErrors(
-                [
-                    'password' => 'パスワードが違っています。',
-                ]
-            );
-            ;
-        }
-    }
     public function homeCount()
     {
         $userCount = User::count();
@@ -67,11 +35,11 @@ class Controller extends BaseController
             ->orderBy('users.id', 'desc')
             ->paginate(10);
 
-        return view('user/usermanagement', compact('user_datas'));
+        return view('user/user_management', compact('user_datas'));
     }
     public function userCreate()
     {
-        return view('user/usercreate');
+        return view('user/user_create');
     }
     public function userConfirm(Request $request)
     {
@@ -83,27 +51,25 @@ class Controller extends BaseController
             $profile = '/storage/' . $path;
             $user_datas['profile'] = $profile;
         }
-        return view('user/userconfirm', compact('user_datas', 'fileName'));
+        return view('user/user_confirm', compact('user_datas', 'fileName'));
     }
     public function userCreateComplete(Request $request)
     {
         $data = $request->all();
         $data['created_user_id'] = Auth::user()->id;
         $data['updated_user_id'] = Auth::user()->id;
-        $data['deleted_user_id'] = Auth::user()->id;
         User::Create($data);
-        return redirect()->route('user#management');
+        return redirect()->route('user_management');
     }
     public function userEdit($id)
     {
         $user = User::where('id', $id)->first()->toArray();
-        return view('user/useredit', compact('user'));
+        return view('user/user_edit', compact('user'));
     }
     public function userUpdate(Request $request)
     {
         $updateData = request()->except(['_token', 'user_id']);
         $updateData['updated_user_id'] = Auth::user()->id;
-        $updateData['deleted_user_id'] = Auth::user()->id;
         $id = $request->user_id;
         if ($request->hasFile('profile')) {
             $oldImg = User::select('profile')->where('id', $id)->first()->toArray();
@@ -115,7 +81,7 @@ class Controller extends BaseController
             $updateData['profile'] = $profile;
         }
         User::where('id', $id)->update($updateData);
-        return redirect()->route('user#management');
+        return redirect()->route('user_management');
     }
     public function userDelete(Request $request)
     {
@@ -124,19 +90,11 @@ class Controller extends BaseController
             return redirect()->back()->with('error', '削除する項目を選択してください。');
         } else {
             User::whereIn('id', $ids)->delete();
-            return redirect()->route('user#management');
+            return redirect()->route('user_management');
         }
     }
     public function userSearch(Request $request)
     {
-        $validationRules = [
-            'searchName' => 'required',
-            'searchEmail' => 'required|email',
-            'searchRole' => 'required',
-            'from_date' => 'required',
-            'to_date' => 'required',
-        ];
-        Validator::make($request->all(), $validationRules)->validate();
         $user_datas = User::where('name', 'like', '%' . $request->searchName . '%')
             ->orWhere('email', 'like', '%' . $request->searchEmail . '%')
             ->orWhere('role', 'like', '%' . $request->searchRole . '%')
@@ -144,7 +102,7 @@ class Controller extends BaseController
             ->orWhere('updated_at', '<=', $request->to_date)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        return view('user/usermanagement',compact('user_datas'));
+        return view('user/user_management', compact('user_datas'));
     }
     private function userValidationCheck($request)
     {

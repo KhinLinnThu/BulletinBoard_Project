@@ -2,19 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\View\View;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -45,7 +37,7 @@ class ProfileController extends Controller
 
     public function showChangePasswordForm()
     {
-        return view('auth/passwordchange');
+        return view('auth/password_change');
     }
 
     public function passwordChange(Request $request)
@@ -60,15 +52,6 @@ class ProfileController extends Controller
         } else {
             return back()->with('error', '現在のパスワードは間違っています。');
         }
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/');
     }
 
     private function ValidationCheck($request)

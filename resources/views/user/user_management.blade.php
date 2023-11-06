@@ -3,29 +3,29 @@
     <div class="sec-content">
         <p class="content-ttl">投稿管理</p>
         <div class="search-sec">
-            <form action="{{ route('user#search') }}" method="post">
+            <form action="{{ route('user_search') }}" method="post">
                 @csrf
                 <div class="card-body">
                     <div class="search-gp">
-                        <input type="text" name="searchName" value="{{ old('searchName')}}" placeholder="氏名" class="form-control @error('searchName') is-invalid @enderror">
+                        <input type="text" name="searchName" value="{{ old('searchName')}}" placeholder="氏名" class="form-control">
                     </div>
                     <div class="search-gp">
-                        <input type="email" name="searchEmail" value="{{ old('searchEmail')}}" placeholder="メールアドレス" class="form-control @error('searchEmail') is-invalid @enderror">
+                        <input type="email" name="searchEmail" value="{{ old('searchEmail')}}" placeholder="メールアドレス" class="form-control">
                     </div>
                     <div class="search-gp">
-                        <select name="searchRole" value="{{ old('searchRole')}}" class="form-control @error('searchRole') is-invalid @enderror">
+                        <select name="searchRole" value="{{ old('searchRole')}}" class="form-control">
                             <option value="">権限種別</option>
                             <option value="1">アドミン</option>
                             <option value="2">ユーザー</option>
                         </select>
                     </div>
                     <div class="search-gp">
-                        <input type="date" name="from_date" value="{{ old('from_date')}}" placeholder="作成日" class="form-control @error('from_date') is-invalid @enderror">~
+                        <input type="date" name="from_date" value="{{ old('from_date')}}" placeholder="作成日" class="form-control">~
                     </div>
                     <div class="search-gp">
-                        <input type="date" name="to_date" value="{{ old('to_date')}}" placeholder="作成日" class="form-control @error('to_date') is-invalid @enderror">
+                        <input type="date" name="to_date" value="{{ old('to_date')}}" placeholder="作成日" class="form-control">
                     </div>
-                    <a href="{{ route('user#management') }}" class="btn-clear">クリア</a>
+                    <a href="{{ route('user_management') }}" class="btn-clear">クリア</a>
                     <button type="submit" class="btn-search mt-5">検索</button>
                 </div>
             </form>
@@ -38,7 +38,7 @@
                         data-bs-target="#exampleModal" name="delete_id">
                         選択したユーザを削除
                     </button>
-                    <a href="{{ route('user#create') }}" class="create"><i class="fa fa-circle-plus"></i>新規作成</a>
+                    <a href="{{ route('user_create') }}" class="create"><i class="fa fa-circle-plus"></i>新規作成</a>
                 </div>
             </div>
             @if (session('error'))
@@ -46,7 +46,7 @@
                     {{ session('error') }}
                 </div>
             @endif
-            <form action="{{ route('user#delete') }}" method="post">
+            <form action="{{ route('user_delete') }}" method="post">
                 @csrf
                 @method('Delete')
                 <table class="user-tb">
@@ -114,7 +114,7 @@
                                         <span>{{ $data->updated_at->format('d/m/Y') }}</span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('user#edit', $data->id) }}" class="edit">編集</a>
+                                        <a href="{{ route('user_edit', $data->id) }}" class="edit">編集</a>
                                     </td>
                                 </tr>
                             @endforeach

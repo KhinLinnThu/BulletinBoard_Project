@@ -3,8 +3,9 @@
 namespace App\Exports;
 
 use App\Models\Post;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ExportPost implements FromCollection, WithHeadings
 {
@@ -29,6 +30,10 @@ class ExportPost implements FromCollection, WithHeadings
     }
     public function collection()
     {
-        return Post::all();
+        if(Auth::user()->role === 1) {
+            return Post::all();
+        }else {
+            return Post::where('created_user_id', auth()->id())->get();
+        }
     }
 }

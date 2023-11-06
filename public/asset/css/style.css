@@ -59,6 +59,9 @@ table td:first-child {
     color: #fff;
     margin-right: 40px;
 }
+.nav .menu .active a{
+    color: #dc4d4d;
+}
 .user-name {
     color : #fff
 }
@@ -429,3 +432,5 @@ hr:not([size]) {
     margin-top: 5px;
     width: 10%;
 }
+
+

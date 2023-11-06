@@ -2,7 +2,7 @@
 @section('content')
     <div class="sec-content">
         <p class="content-ttl">ユーザー情報新規更新</p>
-        <form action="{{ route('user#update') }}" method="POST" enctype="multipart/form-data" class="form">
+        <form action="{{ route('user_update') }}" method="POST" enctype="multipart/form-data" class="form">
             @csrf
             <input type="hidden" name="user_id" value="{{ $user['id'] }}">
             <table class="create-tb">

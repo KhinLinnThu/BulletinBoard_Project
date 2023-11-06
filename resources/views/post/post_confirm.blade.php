@@ -2,7 +2,7 @@
 @section('content')
     <div class="sec-content confirm-page">
         <p class="content-ttl">新規投稿</p>
-        <form action="{{ route('post#complete') }}" method="POST" enctype="multipart/form-data" class="form">
+        <form action="{{ route('post_complete') }}" method="POST" enctype="multipart/form-data" class="form">
             @csrf
             <table class="create-tb">
                 <tr>

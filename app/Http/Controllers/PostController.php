@@ -20,7 +20,7 @@ class PostController extends Controller
                 ->select('posts.*', 'create_user.name as created_user_name', 'updated_user.name as updated_user_name')
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
-            return view('post/postmanagement', compact('post_datas'));
+            return view('post/post_management', compact('post_datas'));
         } else {
             $post_datas = DB::table('posts')
                 ->join('users as create_user', 'posts.created_user_id', '=', 'create_user.id')
@@ -29,18 +29,18 @@ class PostController extends Controller
                 ->where('posts.created_user_id', Auth::user()->id)
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
-            return view('post/postmanagement', compact('post_datas'));
+            return view('post/post_management', compact('post_datas'));
         }
     }
     public function postCreate()
     {
-        return view('post/postcreate');
+        return view('post/post_create');
     }
     public function postConfirm(Request $request)
     {
-        $this->userValidationCheck($request);
+        $this->postValidationCheck($request);
         $confirm_data = $request->all();
-        return view('post/postconfirm', compact('confirm_data'));
+        return view('post/post_confirm', compact('confirm_data'));
     }
     public function postCreateComplete(Request $request)
     {
@@ -56,37 +56,32 @@ class PostController extends Controller
                 'deleted_user_id' => Auth::user()->id
             ]
         );
-        return redirect()->route('post#management');
+        return redirect()->route('post_management');
     }
 
     public function postEdit($id)
     {
         $post = Post::where('id', $id)->first()->toArray();
-        return view('post/postedit', compact('post'));
+        return view('post/post_edit', compact('post'));
     }
     public function postUpdate(Request $request)
     {
-        $this->userValidationCheck($request);
+        $this->postValidationCheck($request);
         $id = $request->post_id;
         $updateData = request()->except(['_token', 'post_id']);
         $updateData['updated_user_id'] = Auth::user()->id;
         $updateData['deleted_user_id'] = Auth::user()->id;
         Post::where('id', $id)->update($updateData);
-        return redirect()->route('post#management');
+        return redirect()->route('post_management');
     }
     public function postDelete($id)
     {
         Post::find($id)->delete();
-        return redirect()->route('post#management');
+        return redirect()->route('post_management');
     }
 
     public function postSearch(Request $request)
     {
-        $validationRules = [
-            'search' => 'required',
-            'status' => 'required',
-        ];
-        Validator::make($request->all(), $validationRules)->validate();
         $search = $request->search;
         $post_datas = Post::where(function ($query) use ($search) {
             $query->where('title', 'like', '%' . $search . '%')
@@ -94,10 +89,10 @@ class PostController extends Controller
         })
             ->where('status', 'like', '%' . $request->status . '%')
             ->paginate(10);
-        return view('post/postmanagement', compact('search', 'post_datas'));
+        return view('post/post_management', compact('search', 'post_datas'));
     }
 
-    private function userValidationCheck($request)
+    private function postValidationCheck($request)
     {
         $validationRules = [
             'title' => 'required|max:255',
