@@ -11,11 +11,19 @@ use Illuminate\Support\Facades\Validator;
 
 class ImportController extends Controller
 {
+    /**
+     * Display the Excel Input Form.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function importView()
     {
         return view('post/import');
     }
-
+    /**
+    * Input data to Post.
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\RedirectResponse
+    */
     public function import(Request $request)
     {
         $validationRules = [
@@ -33,7 +41,10 @@ class ImportController extends Controller
         }
 
     }
-
+     /**
+    * Export data from Post.
+    * @param  \Illuminate\Http\Request  $request
+    */
     public function exportPosts(Request $request)
     {
         return Excel::download(new ExportPost, 'posts.xlsx');

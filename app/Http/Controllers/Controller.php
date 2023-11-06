@@ -16,6 +16,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function homeCount()
     {
         $userCount = User::count();
@@ -28,6 +33,11 @@ class Controller extends BaseController
         return view('home', compact('userCount', 'postCount', 'userPostCount'));
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function userManagement()
     {
         $user_datas = User::leftJoin('users as user', 'user.id', '=', 'users.created_user_id')
@@ -36,10 +46,20 @@ class Controller extends BaseController
             ->paginate(10);
         return view('user/user_management', compact('user_datas'));
     }
+    /**
+     * Display the user create form.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function userCreate()
     {
         return view('user/user_create');
     }
+
+    /**
+     * Display the user confirm form.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function userConfirm(Request $request)
     {
         $this->userValidationCheck($request);
@@ -50,8 +70,14 @@ class Controller extends BaseController
             $profile = '/storage/' . $path;
             $user_datas['profile'] = $profile;
         }
-        return view('user/user_confirm', compact('user_datas', 'fileName'));
+        return view('user/user_confirm', compact('user_datas'));
     }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function userCreateComplete(Request $request)
     {
         $data = $request->all();
@@ -60,11 +86,21 @@ class Controller extends BaseController
         User::Create($data);
         return redirect()->route('user_management');
     }
+    /**
+     * Display the user edit form.
+     * @param number $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function userEdit($id)
     {
         $user = User::where('id', $id)->first()->toArray();
         return view('user/user_edit', compact('user'));
     }
+    /**
+     * Update resource in storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function userUpdate(Request $request)
     {
         $updateData = request()->except(['_token', 'user_id']);
@@ -82,6 +118,11 @@ class Controller extends BaseController
         User::where('id', $id)->update($updateData);
         return redirect()->route('user_management');
     }
+    /**
+     * Remove the specified resource from storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function userDelete(Request $request)
     {
         $ids = $request->ids;
@@ -92,6 +133,11 @@ class Controller extends BaseController
             return redirect()->route('user_management');
         }
     }
+    /**
+     * Display a listing of the resource with search.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function userSearch(Request $request)
     {
         $user_datas = DB::table('users as user')
@@ -121,6 +167,7 @@ class Controller extends BaseController
             ->paginate(10);
         return view('user/user_management', compact('user_datas'));
     }
+
     private function userValidationCheck($request)
     {
         $validationRules = [

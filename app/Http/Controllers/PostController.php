@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
+    /**
+     * Display the specified resource.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function postManagement()
     {
         if (Auth::user()->role === 1) {
@@ -32,16 +36,30 @@ class PostController extends Controller
             return view('post/post_management', compact('post_datas'));
         }
     }
+    /**
+     * Display the post create form.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function postCreate()
     {
         return view('post/post_create');
     }
+    /**
+     * Display the post confirm form.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function postConfirm(Request $request)
     {
         $this->postValidationCheck($request);
         $confirm_data = $request->all();
         return view('post/post_confirm', compact('confirm_data'));
     }
+    /**
+     * Store a newly created resource in storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postCreateComplete(Request $request)
     {
 
@@ -57,12 +75,21 @@ class PostController extends Controller
         );
         return redirect()->route('post_management');
     }
-
+    /**
+     * Display the post edit form.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function postEdit($id)
     {
         $post = Post::where('id', $id)->first()->toArray();
         return view('post/post_edit', compact('post'));
     }
+    /**
+     * Update resource in storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function postUpdate(Request $request)
     {
         $this->postValidationCheck($request);
@@ -72,12 +99,21 @@ class PostController extends Controller
         Post::where('id', $id)->update($updateData);
         return redirect()->route('post_management');
     }
+    /**
+     * Remove the specified resource from storage.
+     * @param number $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postDelete($id)
     {
         Post::find($id)->delete();
         return redirect()->route('post_management');
     }
-
+    /**
+     * Display the search result from post.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function postSearch(Request $request)
     {
         $search = $request->search;

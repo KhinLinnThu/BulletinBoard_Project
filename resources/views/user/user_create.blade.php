@@ -34,7 +34,7 @@
                 </tr>
                 <tr>
                     <td><label for="birthday">生年月日</label></td>
-                    <td><input type="text" name="birthday" placeholder="1980/12/11" value="{{ old('birthday') }}">
+                    <td><input type="date" name="birthday" placeholder="1980/12/11" value="{{ old('birthday') }}">
                         @error('birthday')
                             <span class="error-msg">{{ $message }}</span>
                         @enderror

@@ -40,7 +40,7 @@
                 <td><label for="profile">プロフィール</label></td>
                 <td>
                     <img src="{{ $user_datas['profile'] }}" alt="profile" class="img-thumbnail">
-                    <input type="hidden" name="profile" value="{{$fileName}}" readonly>
+                    <input type="hidden" name="profile" value="{{ $user_datas['profile'] }}" readonly>
                 </td>
             </tr>
             <tr>

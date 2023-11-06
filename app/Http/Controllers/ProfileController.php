@@ -12,6 +12,8 @@ class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Request $request): View
     {
@@ -34,12 +36,20 @@ class ProfileController extends Controller
 
     //     return Redirect::to('/');
     // }
-
+    /**
+     * Display the password change form.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showChangePasswordForm()
     {
         return view('auth/password_change');
     }
 
+    /**
+     * Store the data with password changes.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function passwordChange(Request $request)
     {
         $this->ValidationCheck($request);
@@ -53,7 +63,6 @@ class ProfileController extends Controller
             return back()->with('error', '現在のパスワードは間違っています。');
         }
     }
-
     private function ValidationCheck($request)
     {
         $validationRules = [

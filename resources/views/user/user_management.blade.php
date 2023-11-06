@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="sec-content">
-        <p class="content-ttl">投稿管理</p>
+        <p class="content-ttl">ユーザー管理</p>
         <div class="search-sec">
             <form action="{{ route('user_search') }}" method="post">
                 @csrf

@@ -25,7 +25,7 @@
                                 <p class="mb-2 pb-1"><b>Phone :</b> {{ Auth::user()->phone }}</p>
                                 <p class="mb-2 pb-1"><b>Address :</b> {{ Auth::user()->address }}
                                 </p>
-                                <a href="{{ route('user_edit', Auth::user()->id) }}" class="cmn-btn mt-3">編集</a>
+                                <a href="{{ route('user_edit', Auth::user()->id) }}" class="cmn-btn mt-3 @if(auth()->user()->role === 2)d-none @endif">編集</a>
                             </div>
                         </div>
                     </div>
