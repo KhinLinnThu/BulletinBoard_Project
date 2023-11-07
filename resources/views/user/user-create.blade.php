@@ -2,7 +2,7 @@
 @section('content')
     <div class="sec-content">
         <p class="content-ttl">ユーザー情報新規作成</p>
-        <form action="{{ route('user_confirm') }}" method="POST" enctype="multipart/form-data" class="form">
+        <form action="{{ route('user-confirm') }}" method="POST" enctype="multipart/form-data" class="form">
             @csrf
             <table class="create-tb">
                 <tr>

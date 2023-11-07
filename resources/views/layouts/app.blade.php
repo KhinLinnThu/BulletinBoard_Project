@@ -31,8 +31,8 @@
                     <nav class="nav">
                         <ul class="menu">
                             <li class="{{ request()->is('home') ? 'active' : '' }}"><a href="{{ route('home') }}">ホーム</a></li>
-                            <li class="@if(auth()->user()->role === 2)d-none @endif {{ request()->is('usermanagement') ? 'active' : '' }}"><a href="{{ route('user_management') }}">ユーザー管理</a></li>
-                            <li class="{{ request()->is('postmanagement') ? 'active' : '' }}"><a href="{{ route('post_management') }}">投稿管理</a></li>
+                            <li class="@if(auth()->user()->role === 2)d-none @endif {{ request()->is('usermanagement') ? 'active' : '' }}"><a href="{{ route('user-management') }}">ユーザー管理</a></li>
+                            <li class="{{ request()->is('postmanagement') ? 'active' : '' }}"><a href="{{ route('post-management') }}">投稿管理</a></li>
                         </ul>
 
                         <div class="dropdown">
@@ -41,11 +41,11 @@
                                 {{ Auth::user()->name }}
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="{{ route('profile_edit') }}">プロフィール</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile-edit') }}">プロフィール</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('password_show') }}">パスワード変更</a></li>
+                                <li><a class="dropdown-item" href="{{ route('password-show') }}">パスワード変更</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

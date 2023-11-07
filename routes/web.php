@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
@@ -29,40 +29,40 @@ Route::group(['middleware' => ['guest']], function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile_edit');
-    Route::get('/changepassword', [ProfileController::class, 'showChangePasswordForm'])->name('password_show');
-    Route::post('/change-password', [ProfileController::class, 'passwordChange'])->name('password_change');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile-edit');
+    Route::get('/changepassword', [ProfileController::class, 'showChangePasswordForm'])->name('password-show');
+    Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('password-change');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     // For User
-    Route::get('home', [Controller::class, 'homeCount'])->name('home');
+    Route::get('home', [UserController::class, 'homeCount'])->name('home');
 
     // For Post
-    Route::post('postsearch', [PostController::class, 'postSearch'])->name('post_search');
-    Route::get('postmanagement', [PostController::class, 'postManagement'])->name('post_management');
-    Route::get('postcreate', [PostController::class, 'postCreate'])->name('post_create');
-    Route::post('postconfirm', [PostController::class, 'postConfirm'])->name('post_confirm');
-    Route::post('postcreatecomplete', [PostController::class, 'postCreateComplete'])->name('post_complete');
-    Route::get('postedit/{id}', [PostController::class, 'postEdit'])->name('post_edit');
-    Route::post('postupdate', [PostController::class, 'postUpdate'])->name('post_update');
-    Route::delete('postdelete/{id}', [PostController::class, 'postDelete'])->name('post_delete');
+    Route::post('postsearch', [PostController::class, 'searchPost'])->name('post-search');
+    Route::get('postmanagement', [PostController::class, 'postManagement'])->name('post-management');
+    Route::get('postcreate', [PostController::class, 'createPost'])->name('post-create');
+    Route::post('postconfirm', [PostController::class, 'confirmPostInformation'])->name('post-confirm');
+    Route::post('postcreatecomplete', [PostController::class, 'createPostComplete'])->name('post-complete');
+    Route::get('postedit/{id}', [PostController::class, 'editPost'])->name('post-edit');
+    Route::post('postupdate', [PostController::class, 'updatePostInformation'])->name('post-update');
+    Route::delete('postdelete/{id}', [PostController::class, 'deletePost'])->name('post-delete');
 
     // Excel File Upload & Download
-    Route::get('/fileimport', [ImportController::class, 'importView'])->name('importview');
+    Route::get('/fileimport', [ImportController::class, 'importView'])->name('import-view');
     Route::post('/import', [ImportController::class, 'import'])->name('import');
-    Route::get('/export-posts', [ImportController::class, 'exportPosts'])->name('exportpost');
+    Route::get('/export-posts', [ImportController::class, 'exportPosts'])->name('export-post');
 });
 
 Route::group(
     ['middleware' => ['auth', 'isAdmin']],
     function () {
-        Route::post('usersearch', [Controller::class, 'userSearch'])->name('user_search');
-        Route::get('usermanagement', [Controller::class, 'userManagement'])->name('user_management');
-        Route::get('usercreate', [Controller::class, 'userCreate'])->name('user_create');
-        Route::post('userconfirm', [Controller::class, 'userConfirm'])->name('user_confirm');
-        Route::post('usercreatecomplete', [Controller::class, 'userCreateComplete'])->name('user_complete');
-        Route::get('useredit/{id}', [Controller::class, 'userEdit'])->name('user_edit');
-        Route::post('userupdate', [Controller::class, 'userUpdate'])->name('user_update');
-        Route::delete('userdelete', [Controller::class, 'userDelete'])->name('user_delete');
+        Route::post('usersearch', [UserController::class, 'searchUser'])->name('user-search');
+        Route::get('usermanagement', [UserController::class, 'userManagement'])->name('user-management');
+        Route::get('usercreate', [UserController::class, 'createUser'])->name('user-create');
+        Route::post('userconfirm', [UserController::class, 'confirmUserInformation'])->name('user-confirm');
+        Route::post('usercreatecomplete', [UserController::class, 'createUserComplete'])->name('user-complete');
+        Route::get('useredit/{id}', [UserController::class, 'editUser'])->name('user-edit');
+        Route::post('userupdate', [UserController::class, 'updateUserInformation'])->name('user-update');
+        Route::delete('userdelete', [UserController::class, 'deleteUser'])->name('user-delete');
     }
 );

@@ -24,7 +24,7 @@ class PostController extends Controller
                 ->select('posts.*', 'create_user.name as created_user_name', 'updated_user.name as updated_user_name')
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
-            return view('post/post_management', compact('post_datas'));
+            return view('post/post-management', compact('post_datas'));
         } else {
             $post_datas = DB::table('posts')
                 ->join('users as create_user', 'posts.created_user_id', '=', 'create_user.id')
@@ -33,34 +33,34 @@ class PostController extends Controller
                 ->where('posts.created_user_id', Auth::user()->id)
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
-            return view('post/post_management', compact('post_datas'));
+            return view('post/post-management', compact('post_datas'));
         }
     }
     /**
      * Display the post create form.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function postCreate()
+    public function createPost()
     {
-        return view('post/post_create');
+        return view('post/post-create');
     }
     /**
      * Display the post confirm form.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function postConfirm(Request $request)
+    public function confirmPostInformation(Request $request)
     {
         $this->postValidationCheck($request);
         $confirm_data = $request->all();
-        return view('post/post_confirm', compact('confirm_data'));
+        return view('post/post-confirm', compact('confirm_data'));
     }
     /**
      * Store a newly created resource in storage.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postCreateComplete(Request $request)
+    public function createPostComplete(Request $request)
     {
 
         $status = (isset($request->status) == '1' ? '1' : '0');
@@ -73,48 +73,48 @@ class PostController extends Controller
                 'updated_user_id' => Auth::user()->id,
             ]
         );
-        return redirect()->route('post_management');
+        return redirect()->route('post-management');
     }
     /**
      * Display the post edit form.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function postEdit($id)
+    public function editPost($id)
     {
         $post = Post::where('id', $id)->first()->toArray();
-        return view('post/post_edit', compact('post'));
+        return view('post/post-edit', compact('post'));
     }
     /**
      * Update resource in storage.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function postUpdate(Request $request)
+    public function updatePostInformation(Request $request)
     {
         $this->postValidationCheck($request);
         $id = $request->post_id;
         $updateData = request()->except(['_token', 'post_id']);
         $updateData['updated_user_id'] = Auth::user()->id;
         Post::where('id', $id)->update($updateData);
-        return redirect()->route('post_management');
+        return redirect()->route('post-management');
     }
     /**
      * Remove the specified resource from storage.
      * @param number $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postDelete($id)
+    public function deletePost($id)
     {
         Post::find($id)->delete();
-        return redirect()->route('post_management');
+        return redirect()->route('post-management');
     }
     /**
      * Display the search result from post.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function postSearch(Request $request)
+    public function searchPost(Request $request)
     {
         $search = $request->search;
         if (Auth::user()->role === 1) {
@@ -128,7 +128,7 @@ class PostController extends Controller
                 ->select('posts.*', 'create_user.name as created_user_name', 'updated_user.name as updated_user_name')
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
-            return view('post/post_management', compact('post_datas'));
+            return view('post/post-management', compact('post_datas'));
         } else {
             $post_datas = Post::where(function ($query) use ($search) {
                 $query->where('title', 'like', '%' . $search . '%')
@@ -141,7 +141,7 @@ class PostController extends Controller
                 ->where('posts.created_user_id', Auth::user()->id)
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
-            return view('post/post_management', compact('search', 'post_datas'));
+            return view('post/post-management', compact('search', 'post_datas'));
         }
     }
 

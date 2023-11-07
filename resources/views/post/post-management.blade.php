@@ -3,7 +3,7 @@
     <div class="sec-content">
         <p class="content-ttl">投稿管理</p>
         <div class="search-sec">
-            <form action="{{ route('post_search') }}" method="post">
+            <form action="{{ route('post-search') }}" method="post">
                 @csrf
                 <div class="card-body">
                     <div class="search-gp">
@@ -16,7 +16,7 @@
                             <option value="0">非公開</option>
                         </select>
                     </div>
-                    <a href="{{ route('post_management') }}" class="btn-clear">クリア</a>
+                    <a href="{{ route('post-management') }}" class="btn-clear">クリア</a>
                     <button type="submit" class="btn-search">検索</button>
                 </div>
             </form>
@@ -25,10 +25,10 @@
             <div class="search-result">
                 <p>検査結果 : {{ $post_datas->total() }} 件</p>
                 <p>
-                    <a href="{{ route('importview') }}" class="upload"><i class="fa fa-arrow-up"></i>アップロード</a>
-                    <a href="{{ route('exportpost') }}" class="download"><i class="fa fa-arrow-down"></i>ダウンロード</a>
+                    <a href="{{ route('import-view') }}" class="upload"><i class="fa fa-arrow-up"></i>アップロード</a>
+                    <a href="{{ route('export-post') }}" class="download"><i class="fa fa-arrow-down"></i>ダウンロード</a>
                 </p>
-                <a href="{{ route('post_create') }}" class="create"><i class="fa fa-circle-plus"></i>新規作成</a>
+                <a href="{{ route('post-create') }}" class="create"><i class="fa fa-circle-plus"></i>新規作成</a>
             </div>
             @if (session('success'))
                 <div class="alert alert-success mb-3">
@@ -64,14 +64,14 @@
                                     <td>非公開</td>
                                 @endif
                                 <td>
-                                    <a href="{{ route('post_edit', $data->id) }}" class="edit">編集</a>
+                                    <a href="{{ route('post-edit', $data->id) }}" class="edit">編集</a>
                                     <button type="button" class="delete" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal{{ $data->id }}" name="delete_id">
                                         削除
                                     </button>
 
                                     <!-- Modal -->
-                                    <form action="{{ route('post_delete', $data->id) }}" method="post">
+                                    <form action="{{ route('post-delete', $data->id) }}" method="post">
                                         @csrf
                                         @method('Delete')
 

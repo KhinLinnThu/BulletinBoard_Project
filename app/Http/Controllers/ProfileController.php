@@ -42,7 +42,7 @@ class ProfileController extends Controller
      */
     public function showChangePasswordForm()
     {
-        return view('auth/password_change');
+        return view('auth/password-change');
     }
 
     /**
@@ -50,7 +50,7 @@ class ProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function passwordChange(Request $request)
+    public function changePassword(Request $request)
     {
         $this->ValidationCheck($request);
         $user = Auth::user();

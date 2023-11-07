@@ -3,7 +3,7 @@
     <div class="sec-content">
         <p class="content-ttl">ユーザー管理</p>
         <div class="search-sec">
-            <form action="{{ route('user_search') }}" method="post">
+            <form action="{{ route('user-search') }}" method="post">
                 @csrf
                 <div class="card-body">
                     <div class="search-gp">
@@ -29,7 +29,7 @@
                         <input type="date" name="to_date" value="{{ old('to_date') }}" placeholder="作成日"
                             class="form-control">
                     </div>
-                    <a href="{{ route('user_management') }}" class="btn-clear">クリア</a>
+                    <a href="{{ route('user-management') }}" class="btn-clear">クリア</a>
                     <button type="submit" class="btn-search mt-5">検索</button>
                 </div>
             </form>
@@ -42,7 +42,7 @@
                         data-bs-target="#exampleModal" name="delete_id">
                         選択したユーザを削除
                     </button>
-                    <a href="{{ route('user_create') }}" class="create"><i class="fa fa-circle-plus"></i>新規作成</a>
+                    <a href="{{ route('user-create') }}" class="create"><i class="fa fa-circle-plus"></i>新規作成</a>
                 </div>
             </div>
             @if (session('error'))
@@ -50,7 +50,7 @@
                     {{ session('error') }}
                 </div>
             @endif
-            <form action="{{ route('user_delete') }}" method="post">
+            <form action="{{ route('user-delete') }}" method="post">
                 @csrf
                 @method('Delete')
                 <table class="user-tb">
@@ -118,7 +118,7 @@
                                         <span>{{ Carbon\Carbon::parse($data->updated_at)->format('d/m/Y') }}</span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('user_edit', $data->id) }}" class="edit">編集</a>
+                                        <a href="{{ route('user-edit', $data->id) }}" class="edit">編集</a>
                                     </td>
                                 </tr>
                             @endforeach

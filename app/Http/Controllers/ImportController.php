@@ -35,7 +35,7 @@ class ImportController extends Controller
         Validator::make($request->file(), $validationRules, $validateMessage)->validate();
         try {
             Excel::import(new ImportPost, $request->file('file'));
-            return redirect()->route('post_management')->with('success', 'データ入力が成功しました。');
+            return redirect()->route('post-management')->with('success', 'データ入力が成功しました。');
         } catch (\Throwable $th) {
             return back()->with('error', '何かの問題が発生しています。');
         }

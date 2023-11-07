@@ -2,7 +2,7 @@
 @section('content')
     <div class="sec-content">
         <p class="content-ttl">ユーザー情報新規更新</p>
-        <form action="{{ route('user_update') }}" method="POST" enctype="multipart/form-data" class="form">
+        <form action="{{ route('user-update') }}" method="POST" enctype="multipart/form-data" class="form">
             @csrf
             <input type="hidden" name="user_id" value="{{ $user['id'] }}">
             <table class="create-tb">
@@ -64,7 +64,6 @@
                     <td><label for="profile">プロフィール</label></td>
                     <td>
                         <img src="{{ $user['profile'] }}" alt="profile" class="img-thumbnail"><br>
-                        {{-- <input type="hidden" name="old_profile" value="{{ $user['profile'] }}"> --}}
                         <input type="file" name="profile">
                         @error('profile')
                             <span class="error-msg">{{ $message }}</span>
@@ -72,7 +71,7 @@
                     </td>
                 </tr>
             </table>
-            <button type="reset" class="cmn-btn reset-btn">クリア</button>
+            <a href="{{ url()->previous() }}" class="cmn-btn reset-btn">クリア</a>
             <button type="submit" class="cmn-btn confirm-btn">更新</button>
         </form>
     </div>

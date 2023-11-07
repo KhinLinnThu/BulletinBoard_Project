@@ -7,7 +7,7 @@
                     <p class="mt-5 jp-ttl">パスワード変更</p>
                     <p class="eng-ttl">Bulletin Board</p>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('password_change') }}" class="form">
+                        <form method="POST" action="{{ route('password-change') }}" class="form">
                             @csrf
                             @if (session('error'))
                                 <div class="alert alert-danger">

@@ -1,7 +1,7 @@
 # BulletinBoard
 
 ## Requirements
-- PHP 10.x
+- PHP 8.2.4
 - MySQL 5.2.1
 
 ## Installation

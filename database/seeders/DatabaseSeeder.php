@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make('password'),
-                'profile' => 'suzy.jpg',
+                'profile' => 'storage/images/suzy.jpg',
                 'role' => '1',
                 'phone' => '09422213057',
                 'address' => 'Yangon',
