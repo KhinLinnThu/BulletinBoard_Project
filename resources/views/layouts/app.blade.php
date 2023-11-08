@@ -31,8 +31,8 @@
                     <nav class="nav">
                         <ul class="menu">
                             <li class="{{ request()->is('home') ? 'active' : '' }}"><a href="{{ route('home') }}">ホーム</a></li>
-                            <li class="@if(auth()->user()->role === 2)d-none @endif {{ request()->is('usermanagement') ? 'active' : '' }}"><a href="{{ route('user-management') }}">ユーザー管理</a></li>
-                            <li class="{{ request()->is('postmanagement') ? 'active' : '' }}"><a href="{{ route('post-management') }}">投稿管理</a></li>
+                            <li class="@if(auth()->user()->role === 2)d-none @endif {{ request()->is('user-management') ? 'active' : '' }}"><a href="{{ route('user-management') }}">ユーザー管理</a></li>
+                            <li class="{{ request()->is('post-management') ? 'active' : '' }}"><a href="{{ route('post-management') }}">投稿管理</a></li>
                         </ul>
 
                         <div class="dropdown">
